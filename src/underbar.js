@@ -178,13 +178,19 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
 
-   _.each(collection, function(element, i) {
+    _.each(collection, function(element) {
       if (accumulator === undefined) {
-        iterator(element, i);
+        accumulator = element;
       } else {
-        iterator(element, i) + accumulator;
+        let repetition = iterator(accumulator, element);
+        if (repetition === undefined) {
+          return collection.length;
+        }
+        accumulator = repetition;
       }
     });
+
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
