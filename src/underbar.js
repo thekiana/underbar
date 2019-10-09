@@ -112,15 +112,16 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     var uniqArr = [];
+    var obj = {};
     var check = iterator || _.identity;
 
     _.each(array, function(element) {
-      if (!uniqArr.includes(check(element))) {
-        uniqArr.push(check(element));
+      if (obj[check(element)] === undefined) {
+        obj[check(element)] = element;
       }
     });
 
-    return uniqArr;
+    return Object.values(obj);
   };
 
 
@@ -177,6 +178,14 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+
+   _.each(collection, function(element, i) {
+      if (accumulator === undefined) {
+        iterator(element, i);
+      } else {
+        iterator(element, i) + accumulator;
+      }
+    });
   };
 
   // Determine if the array or object contains a given value (using `===`).
