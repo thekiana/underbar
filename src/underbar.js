@@ -177,16 +177,14 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-
     _.each(collection, function(element) {
       if (accumulator === undefined) {
         accumulator = element;
       } else {
         let repetition = iterator(accumulator, element);
-        if (repetition === undefined) {
-          return collection.length;
+        if (repetition || repetition === 0) {
+          accumulator = repetition;
         }
-        accumulator = repetition;
       }
     });
 
