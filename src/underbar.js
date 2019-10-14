@@ -244,11 +244,25 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    _.each(Array.prototype.slice.call(arguments, 1), function(object) {
+      _.each(object, function(val, key) {
+        obj[key] = val;
+      });
+    });
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    _.each(Array.prototype.slice.call(arguments, 1), function(object) {
+      _.each(object, function(val, key) {
+        return (obj[key] === undefined) && (obj[key] = val);
+      });
+    });
+
+    return obj;
   };
 
 
